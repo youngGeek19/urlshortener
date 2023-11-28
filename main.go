@@ -8,6 +8,7 @@ import (
 	"os"
 	"urlshortener/internal/config"
 	"urlshortener/internal/http-server/handlers/redirect"
+	get_time "urlshortener/internal/http-server/handlers/time"
 	"urlshortener/internal/http-server/handlers/url/save"
 	"urlshortener/internal/lib/logger/sl"
 	"urlshortener/internal/storage/sqlite"
@@ -48,6 +49,7 @@ func main() {
 
 		r.Post("/", save.New(log, storage))
 	})
+	router.Get("/time", get_time.Time(log))
 	router.Get("/{alias}", redirect.New(log, storage))
 
 	log.Info("starting server", slog.String("address", cfg.Address))
